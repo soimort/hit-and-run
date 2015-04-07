@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+# requires GNU bash 4.0+
+# author: Mort Yao <soi@mort.ninja>
+
+LOG=/dev/stderr
+
+# ANSI colors
+AC_RESET="\033[0m"
+AC_INFO="\033[97m"
+AC_COMMAND="\033[94m\033[1m"
+AC_WARNING="\033[93m\033[1m"
+AC_ERROR="\033[91m\033[1m"
+AC_INTERACTIVE="\033[92m\033[1m"
+AC_MESSAGE="\033[96m\033[1m"
+
+help() {
+    read -r -d '' USAGE << 'EOF'
+usage: run <program> [<input_filename> [<args>]]
+EOF
+    echo -E "$USAGE" > $LOG
+}
+
+if [ $# -eq 0 ]; then
+    help && exit 0
+fi
+
+# read arguments
+PROGRAM=$1
+INPUT_FILENAME=$2
+shift 2 && ARGS=$@
+
+# preprocess input/output filenames
+if [ -n "$INPUT_FILENAME" ]; then
+    if [ "$INPUT_FILENAME" = / ]; then
+        INPUT_FILENAME='/dev/stdin'
+        OUTPUT_FILENAME='/dev/stdout'
+    else
+        if [ -r "$INPUT_FILENAME" ]; then
+            OUTPUT_FILENAME=${INPUT_FILENAME%.*}.out
+        else
+            echo -e $AC_ERROR"[fatal] input not found: $INPUT_FILENAME"$RESET > $LOG
+            exit 1
+        fi
+    fi
+fi
+
+if [ -r "$PROGRAM" ]; then
+    # real filename exists
+    FILENAME=$PROGRAM
+    if [ -x "$PROGRAM" ]; then
+        # executable
+        TYPE="Executable"
+        COMMAND=`readlink -f $PROGRAM`
+    else
+        EXTENSION=${FILENAME##*.} && EXTENSION=${EXTENSION,,}
+        case $EXTENSION in
+            'class' ) # JVM bytecode
+                PROGRAM=${PROGRAM%.*}
+                TYPE="JVM bytecode"
+                COMMAND="java $PROGRAM"
+                ;;
+            'java' ) # Java
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                COMPILE_ARGS="-d $TMP_DIR"
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                TMP_PROGRAM=$TMP_DIR/$MAINNAME.class
+                FILENAME=$TMP_PROGRAM
+                TYPE="JVM bytecode"
+                COMMAND="java -cp $TMP_DIR $MAINNAME"
+                ;;
+            # TODO
+            ######
+            * )
+                echo -e $AC_ERROR"[fatal] unknown file extension: .$EXTENSION"$RESET > $LOG
+                exit 1
+                ;;
+        esac
+    fi
+else
+    # not a real filename
+    if [ -r "$PROGRAM.class" ]; then
+        # JVM bytecode
+        FILENAME=$PROGRAM.class
+        TYPE="JVM bytecode"
+        COMMAND="java $PROGRAM"
+    else
+        # just some command
+        COMMAND=$PROGRAM
+    fi
+fi
+
+# compile if needed
+if [ -n "$COMPILE_SOURCE" ]; then
+    DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+    HIT=$DIR/hit
+    $HIT $COMPILE_SOURCE $COMPILE_ARGS
+    if [ "$?" -ne 0 ]; then
+        rm -f "$TMP_PROGRAM" && rmdir "$TMP_DIR"
+        exit 1
+    fi
+    echo > $LOG
+fi
+
+INFO="[running]\n"
+if [ -r "$FILENAME" ]; then
+    # running from file
+    INFO=$INFO"running file: \t$FILENAME\n"
+    INFO=$INFO"file type: \t$TYPE\n"
+    INFO=$INFO"last modified: \t`date -r \"$FILENAME\"`\n"
+else
+    # running a command
+    INFO=$INFO"command: \t$COMMAND\n"
+fi
+if [ -r "$INPUT_FILENAME" -a "$INPUT_FILENAME" != /dev/stdin ]; then
+    # details of input file
+    INFO=$INFO"input file: \t$INPUT_FILENAME > $OUTPUT_FILENAME\n"
+    SIZE_WC=`wc $INPUT_FILENAME | tr -s ' '`
+    SIZE_BYTES=`echo ${SIZE_WC} | cut -d' ' -f3`
+    SIZE_LINES=`echo ${SIZE_WC} | cut -d' ' -f1`
+    INFO=$INFO"input size: \t$SIZE_BYTES bytes, $SIZE_LINES lines\n"
+fi
+# display log
+echo -e $AC_INFO$INFO$AC_RESET > $LOG
+
+# execute command
+COMMAND="$COMMAND $ARGS"
+echo -e $AC_COMMAND\$ $COMMAND$AC_RESET > $LOG
+if [ -n "$INPUT_FILENAME" ]; then
+    # input file exists -> timing mode
+    echo -ne $AC_MESSAGE > $LOG
+    echo -n ================================ > $LOG
+    echo \ $INPUT_FILENAME > $LOG
+    time $COMMAND < $INPUT_FILENAME > $OUTPUT_FILENAME &
+    PROCESS=$!
+    echo -e "pid\t[$PROCESS]" > $LOG
+    d=0; s=0; m=0; while [ -d /proc/$! ]; do
+                       printf "elapsed\t%dm%d.%ds \r" "$m" "$s" "$d" > $LOG
+                       sleep 0.1
+                       d=`expr $d + 1`
+                       if [ $d -eq 10 ]; then d=0; s=`expr $s + 1`; fi
+                       if [ $s -eq 60 ]; then s=0; m=`expr $m + 1`; fi
+                   done
+else
+    # interactive mode
+    echo -ne $AC_INTERACTIVE > $LOG
+    echo -n ================================ > $LOG
+    echo \ '/dev/stdin' > $LOG
+    time $COMMAND
+    EXIT_CODE=$?
+fi
+echo -n ================================ > $LOG
+if [ -n "$OUTPUT_FILENAME" ]; then
+    echo \ $OUTPUT_FILENAME > $LOG
+else
+    echo \ '/dev/stdout' > $LOG
+fi
+echo -ne $AC_RESET > $LOG
+
+# cleanup
+if [ -n "$COMPILE_SOURCE" ]; then
+    rm -f "$TMP_PROGRAM" && rmdir "$TMP_DIR"
+fi
+exit $EXIT_CODE

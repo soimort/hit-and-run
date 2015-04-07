@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+# requires GNU bash 4.0+
+# author: Mort Yao <soi@mort.ninja>
+
+LOG=/dev/stderr
+
+# ANSI colors
+AC_RESET="\033[0m"
+AC_INFO="\033[97m"
+AC_COMMAND="\033[94m\033[1m"
+AC_WARNING="\033[93m\033[1m"
+AC_ERROR="\033[91m\033[1m"
+AC_INTERACTIVE="\033[92m\033[1m"
+AC_MESSAGE="\033[96m\033[1m"
+
+help() {
+    read -r -d '' USAGE << 'EOF'
+usage: hit <filename> [<args>]
+EOF
+    echo -E "$USAGE" > $LOG
+}
+
+if [ $# -eq 0 ]; then
+    help && exit 0
+fi
+
+# read arguments
+FILENAME=$1
+shift && ARGS=$@
+
+if [ ! -r "$FILENAME" ]; then
+    echo -e $AC_ERROR"[fatal] file not found: $FILENAME"$RESET > $LOG
+    exit 1
+fi
+EXTENSION=${FILENAME##*.} && EXTENSION=${EXTENSION,,}
+MAINNAME=${FILENAME##*/} && MAINNAME=${MAINNAME%.*}
+case $EXTENSION in
+    'java' ) # Java
+        LANG="Java"
+        COMMAND="javac"
+        TARGET="$MAINNAME.class"
+        ;;
+    # TODO
+    ######
+    * )
+        echo -e $AC_ERROR"[fatal] unknown file extension: .$EXTENSION"$RESET > $LOG
+        exit 1
+        ;;
+esac
+
+INFO="[compiling]\n"
+INFO=$INFO"language: \t$LANG\n"
+INFO=$INFO"source: \t$FILENAME\n"
+SIZE_WC=`wc $FILENAME | tr -s ' '`
+SIZE_BYTES=`echo ${SIZE_WC} | cut -d' ' -f3`
+SIZE_LINES=`echo ${SIZE_WC} | cut -d' ' -f1`
+INFO=$INFO"source size: \t$SIZE_BYTES bytes, $SIZE_LINES lines\n"
+INFO=$INFO"last modified: \t`date -r \"$FILENAME\"`\n"
+if [ -r "$TARGET" ]; then
+    INFO=$INFO"last compiled: \t`date -r \"$TARGET\"`\n"
+fi
+# display log
+echo -e $AC_INFO$INFO$AC_RESET > $LOG
+
+# execute command
+COMMAND="$COMMAND $FILENAME $ARGS"
+echo -e $AC_COMMAND\$ $COMMAND$AC_RESET > $LOG
+echo -ne $AC_WARNING > $LOG
+$COMMAND
+EXIT_CODE=$?
+echo -ne $AC_RESET > $LOG
+
+exit $EXIT_CODE
