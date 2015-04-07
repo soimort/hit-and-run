@@ -37,17 +37,20 @@ MAINNAME=${FILENAME##*/} && MAINNAME=${MAINNAME%.*}
 case $EXTENSION in
     'java' ) # Java
         LANG="Java"
-        COMMAND="javac"
+        if [ -z "$IMPL" ]; then IMPL="javac"; fi
+        COMMAND="$IMPL"
         TARGET="$MAINNAME.class"
         ;;
     'c' ) # C
         LANG="C"
-        COMMAND="gcc -o $MAINNAME"
+        if [ -z "$IMPL" ]; then IMPL="gcc"; fi
+        COMMAND="$IMPL -o $MAINNAME"
         TARGET="$MAINNAME"
         ;;
     'cpp' | 'cc' | 'cxx' | 'c++' ) # C++
         LANG="C++"
-        COMMAND="g++ -o $MAINNAME"
+        if [ -z "$IMPL" ]; then IMPL="g++"; fi
+        COMMAND="$IMPL -o $MAINNAME"
         TARGET="$MAINNAME"
         ;;
     # TODO

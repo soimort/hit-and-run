@@ -57,7 +57,8 @@ if [ -r "$PROGRAM" ]; then
             'class' ) # JVM bytecode
                 PROGRAM=${PROGRAM%.*}
                 TYPE="JVM bytecode"
-                COMMAND="java $PROGRAM"
+                if [ -z "$IMPL" ]; then IMPL="java"; fi
+                COMMAND="$IMPL $PROGRAM"
                 ;;
             'java' ) # Java
                 COMPILE_SOURCE=$PROGRAM
@@ -67,7 +68,8 @@ if [ -r "$PROGRAM" ]; then
                 TMP_PROGRAM=$TMP_DIR/$MAINNAME.class
                 FILENAME=$TMP_PROGRAM
                 TYPE="JVM bytecode"
-                COMMAND="java -cp $TMP_DIR $MAINNAME"
+                if [ -z "$IMPL" ]; then IMPL="java"; fi
+                COMMAND="$IMPL -cp $TMP_DIR $MAINNAME"
                 ;;
             'c' | 'cpp' | 'cc' | 'cxx' | 'c++' ) # C/C++
                 COMPILE_SOURCE=$PROGRAM
@@ -93,7 +95,8 @@ else
         # JVM bytecode
         FILENAME=$PROGRAM.class
         TYPE="JVM bytecode"
-        COMMAND="java $PROGRAM"
+        if [ -z "$IMPL" ]; then IMPL="java"; fi
+        COMMAND="$IMPL $PROGRAM"
     else
         # just some command
         COMMAND=$PROGRAM
