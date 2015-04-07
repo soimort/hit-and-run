@@ -69,6 +69,16 @@ if [ -r "$PROGRAM" ]; then
                 TYPE="JVM bytecode"
                 COMMAND="java -cp $TMP_DIR $MAINNAME"
                 ;;
+            'c' | 'cpp' | 'cc' | 'cxx' | 'c++' ) # C/C++
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                TMP_PROGRAM=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS="-o $TMP_PROGRAM"
+                FILENAME=$TMP_PROGRAM
+                TYPE="Executable"
+                COMMAND=`readlink -f $TMP_PROGRAM`
+                ;;
             # TODO
             ######
             * )

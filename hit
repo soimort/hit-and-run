@@ -40,6 +40,16 @@ case $EXTENSION in
         COMMAND="javac"
         TARGET="$MAINNAME.class"
         ;;
+    'c' ) # C
+        LANG="C"
+        COMMAND="gcc -o $MAINNAME"
+        TARGET="$MAINNAME"
+        ;;
+    'cpp' | 'cc' | 'cxx' | 'c++' ) # C++
+        LANG="C++"
+        COMMAND="g++ -o $MAINNAME"
+        TARGET="$MAINNAME"
+        ;;
     # TODO
     ######
     * )
