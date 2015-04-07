@@ -46,6 +46,22 @@ The `INPUT_FILE` parameter (or "`/`" if no input file needed), together with the
 
 Firstly, timekeeping is **not guaranteed to be accurate** due to inevitable shell execution overhead. It serves only as a stopwatch so you know roughly how much time has elapsed while running your program.
 
+You may run the following command to see the difference. The "elapsed time" shown in the stopwatch is always a little less than the real time elapsed. In most cases this small error doen't matter a lot, however you should be aware of the fact!
+
+```
+$ run "sleep 10" /
+  [running]
+  command: 	sleep 10
+
+  $ sleep 10
+  ================================ /dev/stdin
+  pid		[8214]
+  elapsed	0m9.7s
+  real		0m10.001s
+  user		0m0.000s
+  sys		0m0.000s
+```
+
 A *pid* is displayed when timekeeping the program. This process **will not be killed even if you terminate `run` manually**. As it still runs in the background, you may choose to either let it go and finish, or `kill` it explicitly.
 
 ## Demo
