@@ -6,7 +6,7 @@ LOG=/dev/stderr
 
 # ANSI colors
 AC_RESET="\033[0m"
-AC_INFO="\033[97m"
+AC_INFO=
 AC_COMMAND="\033[94m\033[1m"
 AC_WARNING="\033[93m\033[1m"
 AC_ERROR="\033[91m\033[1m"
