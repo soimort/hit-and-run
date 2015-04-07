@@ -81,6 +81,12 @@ $ ../hit ackermann.cpp -O3
 $ ../run ackermann / > ackermann.out
 ```
 
-## Unlicense
+## Language Support
 
-This is free and unencumbered software released into the public domain.
+| Language        | Recognized extension          | Canonical compiler | Canonical runtime/interpreter |
+| --------------- | ----------------------------- | ------------------ | ----------------------------- |
+| **C**           | `.c`                          | `gcc`              | |
+| **C++**         | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++`              | |
+| **Java**        | `.java`                       | `javac`            | `java`                        |
+
+Alternatively, you may assign environment variable `IMPL` to specify which implementation to use, e.g. `IMPL=clang++ hit ackermann.cpp`
