@@ -65,8 +65,7 @@ if [ -r "$PROGRAM" ]; then
                 TMP_DIR=`mktemp -d`
                 COMPILE_ARGS="-d $TMP_DIR"
                 MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
-                TMP_PROGRAM=$TMP_DIR/$MAINNAME.class
-                FILENAME=$TMP_PROGRAM
+                FILENAME=$TMP_DIR/$MAINNAME.class
                 TYPE="JVM bytecode"
                 if [ -z "$IMPL" ]; then IMPL="java"; fi
                 COMMAND="$IMPL -cp $TMP_DIR $MAINNAME"
@@ -75,11 +74,19 @@ if [ -r "$PROGRAM" ]; then
                 COMPILE_SOURCE=$PROGRAM
                 TMP_DIR=`mktemp -d`
                 MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
-                TMP_PROGRAM=$TMP_DIR/$MAINNAME
-                COMPILE_ARGS="-o $TMP_PROGRAM"
-                FILENAME=$TMP_PROGRAM
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS="-o $FILENAME"
                 TYPE="Executable"
-                COMMAND=`readlink -f $TMP_PROGRAM`
+                COMMAND=`readlink -f $FILENAME`
+                ;;
+            'pas' ) # Pascal
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS="-FE$TMP_DIR"
+                TYPE="Executable"
+                COMMAND=`readlink -f $FILENAME`
                 ;;
             # TODO
             ######
@@ -109,7 +116,7 @@ if [ -n "$COMPILE_SOURCE" ]; then
     HIT=$DIR/hit
     $HIT $COMPILE_SOURCE $COMPILE_ARGS
     if [ "$?" -ne 0 ]; then
-        rm -f "$TMP_PROGRAM" && rmdir "$TMP_DIR"
+        if [[ "$TMP_DIR" == /tmp/* ]]; then rm -rf "$TMP_DIR"; fi
         exit 1
     fi
     echo > $LOG
@@ -172,6 +179,6 @@ echo -ne $AC_RESET > $LOG
 
 # cleanup
 if [ -n "$COMPILE_SOURCE" ]; then
-    rm -f "$TMP_PROGRAM" && rmdir "$TMP_DIR"
+    if [[ "$TMP_DIR" == /tmp/* ]]; then rm -rf "$TMP_DIR"; fi
 fi
 exit $EXIT_CODE

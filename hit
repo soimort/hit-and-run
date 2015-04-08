@@ -53,6 +53,12 @@ case $EXTENSION in
         COMMAND="$IMPL -o $MAINNAME"
         TARGET="$MAINNAME"
         ;;
+    'pas' ) # Pascal
+        LANG="Pascal"
+        if [ -z "$IMPL" ]; then IMPL="fpc"; fi
+        COMMAND="$IMPL"
+        TARGET="$MAINNAME"
+        ;;
     # TODO
     ######
     * )
