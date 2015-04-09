@@ -91,5 +91,6 @@ $ ../run ackermann / > ackermann.out
 | **Pascal** | `.pas` | `fpc` | |
 | **BASIC** | `.bas` | `fbc` | |
 | **Visual Basic .NET** | `.vb` | `vbnc` | `mono` |
+| **C#** | `.cs` | `mcs` | `mono` |
 
 Alternatively, you may assign environment variable `IMPL` to specify which implementation to use, e.g. `IMPL=clang++ hit ackermann.cpp`

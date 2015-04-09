@@ -71,6 +71,12 @@ case $EXTENSION in
         COMMAND="$IMPL"
         TARGET="$MAINNAME"
         ;;
+    'cs' ) # C#
+        LANG="C#"
+        if [ -z "$IMPL" ]; then IMPL="mcs"; fi
+        COMMAND="$IMPL"
+        TARGET="$MAINNAME"
+        ;;
     # TODO
     ######
     * )
