@@ -97,6 +97,21 @@ if [ -r "$PROGRAM" ]; then
                 TYPE="Executable"
                 COMMAND=`readlink -f $FILENAME`
                 ;;
+            'exe' ) # Mono/.NET assembly
+                TYPE="Mono/.NET assembly"
+                if [ -z "$IMPL" ]; then IMPL="mono"; fi
+                COMMAND="$IMPL $PROGRAM"
+                ;;
+            'vb' ) # Visual Basic .NET
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                FILENAME=$TMP_DIR/$MAINNAME.exe
+                COMPILE_ARGS="/out:$FILENAME"
+                TYPE="Mono/.NET assembly"
+                if [ -z "$IMPL" ]; then IMPL="mono"; fi
+                COMMAND="$IMPL $FILENAME"
+                ;;
             # TODO
             ######
             * )

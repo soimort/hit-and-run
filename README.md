@@ -85,10 +85,11 @@ $ ../run ackermann / > ackermann.out
 
 | Language        | Recognized extension          | Canonical compiler | Canonical runtime/interpreter |
 | --------------- | ----------------------------- | ------------------ | ----------------------------- |
-| **C**           | `.c`                          | `gcc`              | |
-| **C++**         | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++`              | |
-| **Java**        | `.java`                       | `javac`            | `java`                        |
-| **Pascal**      | `.pas`                        | `fpc`              | |
-| **BASIC**       | `.bas`                        | `fbc`              | |
+| **C**  | `.c` | `gcc` | |
+| **C++** | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++` | |
+| **Java** | `.java` | `javac` | `java` |
+| **Pascal** | `.pas` | `fpc` | |
+| **BASIC** | `.bas` | `fbc` | |
+| **Visual Basic .NET** | `.vb` | `vbnc` | `mono` |
 
 Alternatively, you may assign environment variable `IMPL` to specify which implementation to use, e.g. `IMPL=clang++ hit ackermann.cpp`
