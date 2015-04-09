@@ -70,6 +70,16 @@ if [ -r "$PROGRAM" ]; then
                 if [ -z "$IMPL" ]; then IMPL="java"; fi
                 COMMAND="$IMPL -cp $TMP_DIR $MAINNAME"
                 ;;
+            'scala' ) # Scala
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                COMPILE_ARGS="-d $TMP_DIR"
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                FILENAME=$TMP_DIR/$MAINNAME.class
+                TYPE="JVM bytecode"
+                if [ -z "$IMPL" ]; then IMPL="scala"; fi
+                COMMAND="$IMPL -cp $TMP_DIR $MAINNAME"
+                ;;
             'c' | 'cpp' | 'cc' | 'cxx' | 'c++' ) # C/C++
                 COMPILE_SOURCE=$PROGRAM
                 TMP_DIR=`mktemp -d`

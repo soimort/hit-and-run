@@ -88,6 +88,7 @@ $ ../run ackermann / > ackermann.out
 | **C**  | `.c` | `gcc` | |
 | **C++** | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++` | |
 | **Java** | `.java` | `javac` | `java` |
+| **Scala** | `.scala` | `scalac` | `scala` |
 | **Pascal** | `.pas` | `fpc` | |
 | **BASIC** | `.bas` | `fbc` | |
 | **Visual Basic .NET** | `.vb` | `vbnc` | `mono` |
