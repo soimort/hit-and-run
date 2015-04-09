@@ -88,6 +88,15 @@ if [ -r "$PROGRAM" ]; then
                 TYPE="Executable"
                 COMMAND=`readlink -f $FILENAME`
                 ;;
+            'bas' ) # BASIC
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS="-x $FILENAME"
+                TYPE="Executable"
+                COMMAND=`readlink -f $FILENAME`
+                ;;
             # TODO
             ######
             * )
