@@ -41,6 +41,12 @@ case $EXTENSION in
         COMMAND="$IMPL"
         TARGET="$MAINNAME.class"
         ;;
+    'groovy' ) # Groovy
+        LANG="Groovy"
+        if [ -z "$IMPL" ]; then IMPL="groovyc"; fi
+        COMMAND="$IMPL"
+        TARGET="$MAINNAME.class"
+        ;;
     'scala' ) # Scala
         LANG="Scala"
         if [ -z "$IMPL" ]; then IMPL="scalac"; fi

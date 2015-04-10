@@ -89,6 +89,7 @@ $ ../run ackermann / > ackermann.out
 | **C++** | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++` | |
 | **Ada** | `.adb` | `gnatmake` | |
 | **Java** | `.java` | `javac` | `java` |
+| **Groovy** | `.groovy` | `groovyc` | `groovy` |
 | **Scala** | `.scala` | `scalac` | `scala` |
 | **Pascal** | `.pas` | `fpc` | |
 | **BASIC** | `.bas` | `fbc` | |
