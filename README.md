@@ -87,6 +87,7 @@ $ ../run ackermann / > ackermann.out
 | --------------- | ----------------------------- | ------------------ | ----------------------------- |
 | **C**  | `.c` | `gcc` | |
 | **C++** | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++` | |
+| **Fortran** | `.for`, `.f90`, `.f95`, `.f03`, `.f08` | `gfortran` | |
 | **Ada** | `.adb` | `gnatmake` | |
 | **Java** | `.java` | `javac` | `java` |
 | **Groovy** | `.groovy` | `groovyc` | `groovy` |

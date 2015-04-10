@@ -65,6 +65,12 @@ case $EXTENSION in
         COMMAND="$IMPL -o $MAINNAME"
         TARGET="$MAINNAME"
         ;;
+    'for' | 'f90' | 'f95' | 'f03' | 'f08' ) # Fortran
+        LANG="Fortran"
+        if [ -z "$IMPL" ]; then IMPL="gfortran"; fi
+        COMMAND="$IMPL -o $MAINNAME"
+        TARGET="$MAINNAME"
+        ;;
     'adb' ) # Ada
         LANG="Ada"
         if [ -z "$IMPL" ]; then IMPL="gnatmake"; fi
