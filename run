@@ -89,6 +89,15 @@ if [ -r "$PROGRAM" ]; then
                 TYPE="Executable"
                 COMMAND=`readlink -f $FILENAME`
                 ;;
+            'adb' ) # Ada
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS="-D $TMP_DIR -o $FILENAME"
+                TYPE="Executable"
+                COMMAND=`readlink -f $FILENAME`
+                ;;
             'pas' ) # Pascal
                 COMPILE_SOURCE=$PROGRAM
                 TMP_DIR=`mktemp -d`
