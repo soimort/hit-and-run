@@ -115,6 +115,16 @@ if [ -r "$PROGRAM" ]; then
                 if [ -z "$IMPL" ]; then IMPL="mono"; fi
                 COMMAND="$IMPL $FILENAME"
                 ;;
+            'fs' | 'fsx' ) # F#
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                FILENAME=$TMP_DIR/$MAINNAME.exe
+                COMPILE_ARGS="--out:$FILENAME"
+                TYPE="Mono/.NET assembly"
+                if [ -z "$IMPL" ]; then IMPL="mono"; fi
+                COMMAND="$IMPL $FILENAME"
+                ;;
             'for' | 'f90' | 'f95' | 'f03' | 'f08' ) # Fortran
                 COMPILE_SOURCE=$PROGRAM
                 TMP_DIR=`mktemp -d`

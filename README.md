@@ -90,6 +90,7 @@ $ ../run ackermann / > ackermann.out
 | **Scala** | `.scala` | `scalac` | `scala` |
 | **C#** | `.cs` | `mcs` | `mono` |
 | **Visual Basic .NET** | `.vb` | `vbnc` | `mono` |
+| **F#** | `.fs`, `.fsx` | `fsharpc` | `mono` |
 | **Fortran** | `.for`, `.f90`, `.f95`, `.f03`, `.f08` | `gfortran` | |
 | **BASIC** | `.bas` | `fbc` | |
 | **Pascal** | `.pas` | `fpc` | |
