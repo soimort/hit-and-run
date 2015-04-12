@@ -101,6 +101,12 @@ case $EXTENSION in
         COMMAND="$IMPL -o $MAINNAME"
         TARGET="$MAINNAME"
         ;;
+    'ml' ) # OCaml
+        LANG="OCaml"
+        if [ -z "$IMPL" ]; then IMPL="ocamlopt"; fi
+        COMMAND="$IMPL -o $MAINNAME"
+        TARGET="$MAINNAME"
+        ;;
     # TODO
     ######
     * )
