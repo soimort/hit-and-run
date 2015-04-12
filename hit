@@ -107,6 +107,12 @@ case $EXTENSION in
         COMMAND="$IMPL -o $MAINNAME"
         TARGET="$MAINNAME"
         ;;
+    'hs' ) # Haskell
+        LANG="Haskell"
+        if [ -z "$IMPL" ]; then IMPL="ghc"; fi
+        COMMAND="$IMPL"
+        TARGET="$MAINNAME"
+        ;;
     # TODO
     ######
     * )

@@ -97,5 +97,6 @@ $ ../run ackermann / > ackermann.out
 | **C**  | `.c` | `gcc` | |
 | **C++** | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++` | |
 | **OCaml** | `.ml` | `ocamlopt` | |
+| **Haskell** | `.hs` | `ghc` | |
 
 Alternatively, you may assign environment variable `IMPL` to specify which implementation to use, e.g. `IMPL=clang++ hit ackermann.cpp`

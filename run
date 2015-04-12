@@ -163,7 +163,17 @@ if [ -r "$PROGRAM" ]; then
             'ml' ) # OCaml
                 TMP_DIR=`mktemp -d`
                 MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
-                COMPILE_SOURCE=$TMP_DIR/$MAINNAME.ml
+                COMPILE_SOURCE=$TMP_DIR/$MAINNAME.$EXTENSION
+                cp $PROGRAM $COMPILE_SOURCE
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS="-o $FILENAME"
+                TYPE="Executable"
+                COMMAND=`readlink -f $FILENAME`
+                ;;
+            'hs' ) # Haskell
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                COMPILE_SOURCE=$TMP_DIR/$MAINNAME.$EXTENSION
                 cp $PROGRAM $COMPILE_SOURCE
                 FILENAME=$TMP_DIR/$MAINNAME
                 COMPILE_ARGS="-o $FILENAME"
