@@ -109,8 +109,8 @@ case $EXTENSION in
         ;;
     'sml' ) # Standard ML
         LANG="Standard ML"
-        if [ -z "$IMPL" ]; then IMPL="mlton"; fi
-        COMMAND="$IMPL"
+        if [ -z "$IMPL" ]; then IMPL="mosmlc"; fi
+        COMMAND="$IMPL -o $MAINNAME"
         TARGET="$MAINNAME"
         ;;
     'ml' ) # OCaml
