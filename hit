@@ -57,13 +57,13 @@ case $EXTENSION in
         LANG="C#"
         if [ -z "$IMPL" ]; then IMPL="mcs"; fi
         COMMAND="$IMPL"
-        TARGET="$MAINNAME"
+        TARGET="$MAINNAME.exe"
         ;;
     'vb' ) # Visual Basic .NET
         LANG="Visual Basic .NET"
         if [ -z "$IMPL" ]; then IMPL="vbnc"; fi
         COMMAND="$IMPL"
-        TARGET="$MAINNAME"
+        TARGET="$MAINNAME.exe"
         ;;
     'for' | 'f90' | 'f95' | 'f03' | 'f08' ) # Fortran
         LANG="Fortran"
