@@ -33,7 +33,6 @@ if [ ! -r "$FILENAME" ]; then
     exit 1
 fi
 EXTENSION=${FILENAME##*.} && EXTENSION=${EXTENSION,,}
-#MAINNAME=${FILENAME##*/} && MAINNAME=${MAINNAME%.*}
 MAINNAME=${FILENAME} && MAINNAME=${MAINNAME%.*}
 case $EXTENSION in
     'java' ) # Java
