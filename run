@@ -160,6 +160,16 @@ if [ -r "$PROGRAM" ]; then
                 TYPE="Executable"
                 COMMAND=`readlink -f $FILENAME`
                 ;;
+            'sml' ) # Standard ML
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                COMPILE_SOURCE=$TMP_DIR/$MAINNAME.$EXTENSION
+                cp $PROGRAM $COMPILE_SOURCE
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS=""
+                TYPE="Executable"
+                COMMAND=`readlink -f $FILENAME`
+                ;;
             'ml' ) # OCaml
                 TMP_DIR=`mktemp -d`
                 MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}

@@ -96,6 +96,7 @@ $ ../run ackermann / > ackermann.out
 | **Ada** | `.adb` | `gnatmake` | |
 | **C**  | `.c` | `gcc` | |
 | **C++** | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++` | |
+| **Standard ML** | `.sml` | `mlton` | |
 | **OCaml** | `.ml` | `ocamlopt` | |
 | **Haskell** | `.hs` | `ghc` | |
 | **Idris** | `.idr` | `idris` | |
