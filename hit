@@ -33,7 +33,8 @@ if [ ! -r "$FILENAME" ]; then
     exit 1
 fi
 EXTENSION=${FILENAME##*.} && EXTENSION=${EXTENSION,,}
-MAINNAME=${FILENAME##*/} && MAINNAME=${MAINNAME%.*}
+#MAINNAME=${FILENAME##*/} && MAINNAME=${MAINNAME%.*}
+MAINNAME=${FILENAME} && MAINNAME=${MAINNAME%.*}
 case $EXTENSION in
     'java' ) # Java
         LANG="Java"
@@ -111,6 +112,12 @@ case $EXTENSION in
         LANG="Haskell"
         if [ -z "$IMPL" ]; then IMPL="ghc"; fi
         COMMAND="$IMPL"
+        TARGET="$MAINNAME"
+        ;;
+    'idr' ) # Idris
+        LANG="Idris"
+        if [ -z "$IMPL" ]; then IMPL="idris"; fi
+        COMMAND="$IMPL -o $MAINNAME"
         TARGET="$MAINNAME"
         ;;
     # TODO

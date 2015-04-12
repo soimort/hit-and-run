@@ -180,6 +180,16 @@ if [ -r "$PROGRAM" ]; then
                 TYPE="Executable"
                 COMMAND=`readlink -f $FILENAME`
                 ;;
+            'idr' ) # Idris
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                COMPILE_SOURCE=$TMP_DIR/$MAINNAME.$EXTENSION
+                cp $PROGRAM $COMPILE_SOURCE
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS=""
+                TYPE="Executable"
+                COMMAND=`readlink -f $FILENAME`
+                ;;
             # TODO
             ######
             * )
