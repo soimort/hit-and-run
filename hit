@@ -53,6 +53,42 @@ case $EXTENSION in
         COMMAND="$IMPL"
         TARGET="$MAINNAME.class"
         ;;
+    'cs' ) # C#
+        LANG="C#"
+        if [ -z "$IMPL" ]; then IMPL="mcs"; fi
+        COMMAND="$IMPL"
+        TARGET="$MAINNAME"
+        ;;
+    'vb' ) # Visual Basic .NET
+        LANG="Visual Basic .NET"
+        if [ -z "$IMPL" ]; then IMPL="vbnc"; fi
+        COMMAND="$IMPL"
+        TARGET="$MAINNAME"
+        ;;
+    'for' | 'f90' | 'f95' | 'f03' | 'f08' ) # Fortran
+        LANG="Fortran"
+        if [ -z "$IMPL" ]; then IMPL="gfortran"; fi
+        COMMAND="$IMPL -o $MAINNAME"
+        TARGET="$MAINNAME"
+        ;;
+    'bas' ) # BASIC
+        LANG="BASIC"
+        if [ -z "$IMPL" ]; then IMPL="fbc"; fi
+        COMMAND="$IMPL"
+        TARGET="$MAINNAME"
+        ;;
+    'pas' ) # Pascal
+        LANG="Pascal"
+        if [ -z "$IMPL" ]; then IMPL="fpc"; fi
+        COMMAND="$IMPL"
+        TARGET="$MAINNAME"
+        ;;
+    'adb' ) # Ada
+        LANG="Ada"
+        if [ -z "$IMPL" ]; then IMPL="gnatmake"; fi
+        COMMAND="$IMPL"
+        TARGET="$MAINNAME"
+        ;;
     'c' ) # C
         LANG="C"
         if [ -z "$IMPL" ]; then IMPL="gcc"; fi
@@ -63,42 +99,6 @@ case $EXTENSION in
         LANG="C++"
         if [ -z "$IMPL" ]; then IMPL="g++"; fi
         COMMAND="$IMPL -o $MAINNAME"
-        TARGET="$MAINNAME"
-        ;;
-    'for' | 'f90' | 'f95' | 'f03' | 'f08' ) # Fortran
-        LANG="Fortran"
-        if [ -z "$IMPL" ]; then IMPL="gfortran"; fi
-        COMMAND="$IMPL -o $MAINNAME"
-        TARGET="$MAINNAME"
-        ;;
-    'adb' ) # Ada
-        LANG="Ada"
-        if [ -z "$IMPL" ]; then IMPL="gnatmake"; fi
-        COMMAND="$IMPL"
-        TARGET="$MAINNAME"
-        ;;
-    'pas' ) # Pascal
-        LANG="Pascal"
-        if [ -z "$IMPL" ]; then IMPL="fpc"; fi
-        COMMAND="$IMPL"
-        TARGET="$MAINNAME"
-        ;;
-    'bas' ) # BASIC
-        LANG="BASIC"
-        if [ -z "$IMPL" ]; then IMPL="fbc"; fi
-        COMMAND="$IMPL"
-        TARGET="$MAINNAME"
-        ;;
-    'vb' ) # Visual Basic .NET
-        LANG="Visual Basic .NET"
-        if [ -z "$IMPL" ]; then IMPL="vbnc"; fi
-        COMMAND="$IMPL"
-        TARGET="$MAINNAME"
-        ;;
-    'cs' ) # C#
-        LANG="C#"
-        if [ -z "$IMPL" ]; then IMPL="mcs"; fi
-        COMMAND="$IMPL"
         TARGET="$MAINNAME"
         ;;
     # TODO

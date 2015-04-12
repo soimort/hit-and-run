@@ -85,16 +85,16 @@ $ ../run ackermann / > ackermann.out
 
 | Language        | Recognized extension          | Canonical compiler | Canonical runtime/interpreter |
 | --------------- | ----------------------------- | ------------------ | ----------------------------- |
-| **C**  | `.c` | `gcc` | |
-| **C++** | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++` | |
-| **Fortran** | `.for`, `.f90`, `.f95`, `.f03`, `.f08` | `gfortran` | |
-| **Ada** | `.adb` | `gnatmake` | |
 | **Java** | `.java` | `javac` | `java` |
 | **Groovy** | `.groovy` | `groovyc` | `groovy` |
 | **Scala** | `.scala` | `scalac` | `scala` |
-| **Pascal** | `.pas` | `fpc` | |
-| **BASIC** | `.bas` | `fbc` | |
-| **Visual Basic .NET** | `.vb` | `vbnc` | `mono` |
 | **C#** | `.cs` | `mcs` | `mono` |
+| **Visual Basic .NET** | `.vb` | `vbnc` | `mono` |
+| **Fortran** | `.for`, `.f90`, `.f95`, `.f03`, `.f08` | `gfortran` | |
+| **BASIC** | `.bas` | `fbc` | |
+| **Pascal** | `.pas` | `fpc` | |
+| **Ada** | `.adb` | `gnatmake` | |
+| **C**  | `.c` | `gcc` | |
+| **C++** | `.cpp`, `.cc`, `.cxx`, `.c++` | `g++` | |
 
 Alternatively, you may assign environment variable `IMPL` to specify which implementation to use, e.g. `IMPL=clang++ hit ackermann.cpp`

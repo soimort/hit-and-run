@@ -90,14 +90,30 @@ if [ -r "$PROGRAM" ]; then
                 if [ -z "$IMPL" ]; then IMPL="scala"; fi
                 COMMAND="$IMPL -cp $TMP_DIR $MAINNAME"
                 ;;
-            'c' | 'cpp' | 'cc' | 'cxx' | 'c++' ) # C/C++
+            'exe' ) # Mono/.NET assembly
+                TYPE="Mono/.NET assembly"
+                if [ -z "$IMPL" ]; then IMPL="mono"; fi
+                COMMAND="$IMPL $PROGRAM"
+                ;;
+            'cs' ) # C#
                 COMPILE_SOURCE=$PROGRAM
                 TMP_DIR=`mktemp -d`
                 MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
-                FILENAME=$TMP_DIR/$MAINNAME
-                COMPILE_ARGS="-o $FILENAME"
-                TYPE="Executable"
-                COMMAND=`readlink -f $FILENAME`
+                FILENAME=$TMP_DIR/$MAINNAME.exe
+                COMPILE_ARGS="-out:$FILENAME"
+                TYPE="Mono/.NET assembly"
+                if [ -z "$IMPL" ]; then IMPL="mono"; fi
+                COMMAND="$IMPL $FILENAME"
+                ;;
+            'vb' ) # Visual Basic .NET
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                FILENAME=$TMP_DIR/$MAINNAME.exe
+                COMPILE_ARGS="/out:$FILENAME"
+                TYPE="Mono/.NET assembly"
+                if [ -z "$IMPL" ]; then IMPL="mono"; fi
+                COMMAND="$IMPL $FILENAME"
                 ;;
             'for' | 'f90' | 'f95' | 'f03' | 'f08' ) # Fortran
                 COMPILE_SOURCE=$PROGRAM
@@ -105,24 +121,6 @@ if [ -r "$PROGRAM" ]; then
                 MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
                 FILENAME=$TMP_DIR/$MAINNAME
                 COMPILE_ARGS="-o $FILENAME"
-                TYPE="Executable"
-                COMMAND=`readlink -f $FILENAME`
-                ;;
-            'adb' ) # Ada
-                COMPILE_SOURCE=$PROGRAM
-                TMP_DIR=`mktemp -d`
-                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
-                FILENAME=$TMP_DIR/$MAINNAME
-                COMPILE_ARGS="-D $TMP_DIR -o $FILENAME"
-                TYPE="Executable"
-                COMMAND=`readlink -f $FILENAME`
-                ;;
-            'pas' ) # Pascal
-                COMPILE_SOURCE=$PROGRAM
-                TMP_DIR=`mktemp -d`
-                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
-                FILENAME=$TMP_DIR/$MAINNAME
-                COMPILE_ARGS="-FE$TMP_DIR"
                 TYPE="Executable"
                 COMMAND=`readlink -f $FILENAME`
                 ;;
@@ -135,30 +133,32 @@ if [ -r "$PROGRAM" ]; then
                 TYPE="Executable"
                 COMMAND=`readlink -f $FILENAME`
                 ;;
-            'exe' ) # Mono/.NET assembly
-                TYPE="Mono/.NET assembly"
-                if [ -z "$IMPL" ]; then IMPL="mono"; fi
-                COMMAND="$IMPL $PROGRAM"
-                ;;
-            'vb' ) # Visual Basic .NET
+            'pas' ) # Pascal
                 COMPILE_SOURCE=$PROGRAM
                 TMP_DIR=`mktemp -d`
                 MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
-                FILENAME=$TMP_DIR/$MAINNAME.exe
-                COMPILE_ARGS="/out:$FILENAME"
-                TYPE="Mono/.NET assembly"
-                if [ -z "$IMPL" ]; then IMPL="mono"; fi
-                COMMAND="$IMPL $FILENAME"
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS="-FE$TMP_DIR"
+                TYPE="Executable"
+                COMMAND=`readlink -f $FILENAME`
                 ;;
-            'cs' ) # C#
+            'adb' ) # Ada
                 COMPILE_SOURCE=$PROGRAM
                 TMP_DIR=`mktemp -d`
                 MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
-                FILENAME=$TMP_DIR/$MAINNAME.exe
-                COMPILE_ARGS="-out:$FILENAME"
-                TYPE="Mono/.NET assembly"
-                if [ -z "$IMPL" ]; then IMPL="mono"; fi
-                COMMAND="$IMPL $FILENAME"
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS="-D $TMP_DIR -o $FILENAME"
+                TYPE="Executable"
+                COMMAND=`readlink -f $FILENAME`
+                ;;
+            'c' | 'cpp' | 'cc' | 'cxx' | 'c++' ) # C/C++
+                COMPILE_SOURCE=$PROGRAM
+                TMP_DIR=`mktemp -d`
+                MAINNAME=${PROGRAM##*/} && MAINNAME=${MAINNAME%.*}
+                FILENAME=$TMP_DIR/$MAINNAME
+                COMPILE_ARGS="-o $FILENAME"
+                TYPE="Executable"
+                COMMAND=`readlink -f $FILENAME`
                 ;;
             # TODO
             ######
