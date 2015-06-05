@@ -266,6 +266,7 @@ fi
 echo -e $AC_INFO$INFO$AC_RESET > $LOG
 
 # execute command
+trap 'kill -9 $PROCESS; exit 1' 1 2 15
 COMMAND="$COMMAND $ARGS"
 echo -e $AC_COMMAND\$ $COMMAND$AC_RESET > $LOG
 if [ -n "$INPUT_FILENAME" ]; then
