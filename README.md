@@ -62,8 +62,6 @@ $ run "sleep 10" /
   sys		0m0.000s
 ```
 
-A *pid* is displayed when timekeeping the program. This process **will not be killed even if you terminate `run` manually**. As it still runs in the background, you may choose to either let it go and finish, or `kill` it explicitly.
-
 ## Demo
 
 Measure the running time of computing the [Ackermann function](https://en.wikipedia.org/wiki/Ackermann_function) `A(3,12)` recursively in Java and C++:
